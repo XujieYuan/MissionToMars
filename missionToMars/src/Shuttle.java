@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -17,11 +18,12 @@ public class Shuttle {
      */
     private int shuttleId;
     private String shuttleName;
-    private int manufactureYear;
-    private double fuelCapacity;
+    private Date manufactureYear;
+    private int fuelCapacity;
     private int passengerCapacity;
     private int cargoCapacity;
     private int travelSpeed;
+    private String origin;
 
     /**
      * default constructor
@@ -30,17 +32,18 @@ public class Shuttle {
     {
         shuttleId = 0;
         shuttleName = "";
-        manufactureYear = 0;
+        manufactureYear = null;
         fuelCapacity = 0;
         passengerCapacity = 0;
         cargoCapacity = 0;
         travelSpeed = 0;
+        origin = "";
     }
 
     /**
      * non-default constructor
      */
-    public Shuttle(int newShuttleId, String newShuttleName, int newManufactureYear, double newFuelCapacity, int newPassengerCapacity, int newCargoCapacity, int newTravelSpeed)
+    public Shuttle(int newShuttleId, String newShuttleName, Date newManufactureYear, int newFuelCapacity, int newPassengerCapacity, int newCargoCapacity, int newTravelSpeed, String newOrigin)
     {
         shuttleId = newShuttleId;
         shuttleName = newShuttleName;
@@ -49,6 +52,7 @@ public class Shuttle {
         passengerCapacity = newPassengerCapacity;
         cargoCapacity = newCargoCapacity;
         travelSpeed = newTravelSpeed;
+        origin = newOrigin;
     }
 
     /**
@@ -62,11 +66,11 @@ public class Shuttle {
         return shuttleName;
     }
 
-    public int getManufactureYear() {
+    public Date getManufactureYear() {
         return manufactureYear;
     }
 
-    public double getFuelCapacity() {
+    public int getFuelCapacity() {
         return fuelCapacity;
     }
 
@@ -82,6 +86,10 @@ public class Shuttle {
         return travelSpeed;
     }
 
+    public String getOrigin() {
+        return origin;
+    }
+
     /**
      * Mutator
      */
@@ -93,11 +101,11 @@ public class Shuttle {
         this.shuttleName = shuttleName;
     }
 
-    public void setManufactureYear(int manufactureYear) {
+    public void setManufactureYear(Date manufactureYear) {
         this.manufactureYear = manufactureYear;
     }
 
-    public void setFuelCapacity(double fuelCapacity) {
+    public void setFuelCapacity(int fuelCapacity) {
         this.fuelCapacity = fuelCapacity;
     }
 
@@ -111,6 +119,10 @@ public class Shuttle {
 
     public void setTravelSpeed(int travelSpeed) {
         this.travelSpeed = travelSpeed;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
     }
 
     /**

@@ -4,14 +4,22 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
+
+/**
+ * Author: Xujie yuan
+ * version: 1.0
+ */
 
 public class LoginToMissionToMars {
 
     private ArrayList<Integer> coordinatorID;
     private ArrayList<Integer> adminID;
     private ArrayList<Integer> candiID;
+    private ArrayList<Administrator> admin;
+    private ArrayList<Coordinator> coordinator;
 
     public LoginToMissionToMars() {
         //adminID = new ArrayList<>();
@@ -20,12 +28,16 @@ public class LoginToMissionToMars {
         coordinatorID = readCoordinatorID();
         adminID = readAdminId();
         candiID = readCandiId();
+        admin = readAdmin();
+        coordinator = readCoordinator();
     }
 
-    public LoginToMissionToMars(ArrayList<Integer> newCoordinatorID, ArrayList<Integer> newAdminID, ArrayList<Integer> newCandiID) {
+    public LoginToMissionToMars(ArrayList<Integer> newCoordinatorID, ArrayList<Integer> newAdminID, ArrayList<Integer> newCandiID, ArrayList<Administrator> newAdmin, ArrayList<Coordinator> newCoordinator) {
         coordinatorID = newCoordinatorID;
         adminID = newAdminID;
         candiID = newCandiID;
+        admin = newAdmin;
+        coordinator = newCoordinator;
     }
 
     public ArrayList<Integer> getCoordinatorID() {
@@ -40,6 +52,14 @@ public class LoginToMissionToMars {
         return candiID;
     }
 
+    public ArrayList<Administrator> getAdmin() {
+        return admin;
+    }
+
+    public ArrayList<Coordinator> getCoordinator() {
+        return coordinator;
+    }
+
     public void setCoordinatorID(ArrayList<Integer> coordinatorID) {
         this.coordinatorID = coordinatorID;
     }
@@ -52,13 +72,21 @@ public class LoginToMissionToMars {
         this.candiID = candiID;
     }
 
+    public void setAdmin(ArrayList<Administrator> admin) {
+        this.admin = admin;
+    }
+
+    public void setCoordinator(ArrayList<Coordinator> coordinator) {
+        this.coordinator = coordinator;
+    }
+
     public void startProgram() {
         while (true) {
             System.out.println("********************************************");
             System.out.println("* Welcome to Mission to Mars!              *");
             System.out.println("* Please select from the following options *");
             System.out.println("* Press 1 to register an Coordinator       *");
-            System.out.println("* Press 2 for an Coordinator to login      *");
+            System.out.println("* Press 2 for a Coordinator to login       *");
             System.out.println("* Press 3 to register an Administrator     *");
             System.out.println("* Press 4 for an Administrator to login    *");
             System.out.println("* Press 5 to register a Candidate          *");
@@ -74,22 +102,19 @@ public class LoginToMissionToMars {
                     registerCoordinator();
                     break;
                 case "2":
-                    System.out.println("Please enter your coordinator identifyNo");
-                    System.out.println("Please enter your password");
+                    coordinatorLogin();
                     break;
                 case "3":
                     registerAdmin();
                     break;
                 case "4":
-                    System.out.println("Please enter your administrator identifyNo");
-                    System.out.println("Please enter your password");
+                    adminLogin();
                     break;
                 case "5":
                     registerCandidate();
                     break;
                 case "6":
-                    System.out.println("Please enter your candidate identifyNo");
-                    System.out.println("Please enter your password");
+                    System.out.println("Only feature 5 needs candidate login function but our team's tasks is feature 1,2,4,6, so that we did not cover this" + '\n');
                     break;
                 case "7":
                     test();
@@ -123,7 +148,7 @@ public class LoginToMissionToMars {
         readExcel excel2 = new readExcel();
         String content = StringUtils.join(coordinator, ",");
         excel2.writeCSV("coordinator.csv", "\n" + content);
-        System.out.println("Register success! As an coordinator, Your identifyNo is " + identifyNo);
+        System.out.println("Register success! As a COORDINATOR, Your identifyNo is " + identifyNo);
         System.out.println();
         return identifyNo;
     }
@@ -155,7 +180,7 @@ public class LoginToMissionToMars {
         content = StringUtils.join(admin, ",");
         appendMethod(fileName, content);
         appendMethod(fileName, "\n");
-        System.out.println("Register success! As an administrator, Your identifyNo is " + identifyNo);
+        System.out.println("Register success! As an ADMINISTRATOR, Your identifyNo is " + identifyNo);
         System.out.println();
         return identifyNo;
     }
@@ -194,7 +219,7 @@ public class LoginToMissionToMars {
         readExcel excel = new readExcel();
         String content = StringUtils.join(candidate, ",");
         excel.writeCSV("candidate.csv", "\n" + content);
-        System.out.println("Register success! As a candidate, Your identifyNo is " + identifyNo);
+        System.out.println("Register success! As a CANDIDATE, Your identifyNo is " + identifyNo);
         System.out.println();
         return identifyNo;
     }
@@ -218,23 +243,22 @@ public class LoginToMissionToMars {
     public String regName() {
         String employeeName = "";
         Scanner console = new Scanner(System.in);
-        while(!validateName(employeeName))
-        {
+        while (!validateName(employeeName)) {
             System.out.println("Please enter your name");
             employeeName = console.nextLine();
         }
         /**
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter your name");
-        while (true) {
-            try {
-                employeeName = scanner.nextLine();
-                break;
-            } catch (Exception e) {
-                System.out.println("Invalid input, please enter again:");
-                scanner.nextLine();
-            }
-        }
+         Scanner scanner = new Scanner(System.in);
+         System.out.println("Please enter your name");
+         while (true) {
+         try {
+         employeeName = scanner.nextLine();
+         break;
+         } catch (Exception e) {
+         System.out.println("Invalid input, please enter again:");
+         scanner.nextLine();
+         }
+         }
          */
         return employeeName;
     }
@@ -652,24 +676,10 @@ public class LoginToMissionToMars {
     public String regPassword() {
         String password = "";
         Scanner console = new Scanner(System.in);
-        while(!validatePassword(password))
-        {
+        while (!validatePassword(password)) {
             System.out.println("Please enter your password");
             password = console.nextLine();
         }
-        /**
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please enter your password");
-        while (true) {
-            try {
-                password = scanner.nextLine();
-                break;
-            } catch (Exception e) {
-                System.out.println("Invalid input, please enter again:");
-                scanner.nextLine();
-            }
-        }
-         */
         return password;
     }
 
@@ -745,6 +755,24 @@ public class LoginToMissionToMars {
         return file;
     }
 
+    public ArrayList<Coordinator> readCoordinator() {
+        int cid = 0;
+        String password = "";
+        readExcel excel = new readExcel();
+        ArrayList<Coordinator> coordinators = new ArrayList<>();
+        //System.out.println(readFileByLines());
+        for (int i = 0; i <= excel.readCsvFile("coordinator.csv").size() - 1; i++) {
+            Coordinator cd = new Coordinator();
+            cid = Integer.parseInt(excel.readCsvFile("coordinator.csv").get(i).split(",")[0]);
+            password = excel.readCsvFile("coordinator.csv").get(i).split(",")[2];
+            cd.setId(cid);
+            cd.setPassword(password);
+            coordinators.add(cd);
+        }
+        //System.out.println(file);
+        return coordinators;
+    }
+
     public ArrayList<Integer> readAdminId() {
         int aid = 0;
         ArrayList<Integer> file = new ArrayList<>();
@@ -755,6 +783,23 @@ public class LoginToMissionToMars {
         }
         //System.out.println(file);
         return file;
+    }
+
+    public ArrayList<Administrator> readAdmin() {
+        int aid = 0;
+        String password = "";
+        ArrayList<Administrator> administrators = new ArrayList<>();
+        //System.out.println(readFileByLines());
+        for (int i = 0; i <= countTxtLines("./src/administrator.txt") - 1; i++) {
+            Administrator ad = new Administrator();
+            aid = Integer.parseInt(readTxtFileByLines("./src/administrator.txt").get(i).split(",")[0]);
+            password = readTxtFileByLines("./src/administrator.txt").get(i).split(",")[8];
+            ad.setId(aid);
+            ad.setPassword(password);
+            administrators.add(ad);
+        }
+        //System.out.println(file);
+        return administrators;
     }
 
     public ArrayList<Integer> readCandiId() {
@@ -768,25 +813,145 @@ public class LoginToMissionToMars {
         return file;
     }
 
-    public boolean validateName(String name)
-    {
-        if(name.trim().length() >= 30 || name.trim().length() == 0)
+    public boolean validateName(String name) {
+        if (name.trim().length() >= 30 || name.trim().length() == 0)
             return false;
-        else
-        {
-            for(int i = 0; i < name.trim().length(); i++)
-            {
-                if(name.toUpperCase().charAt(i) > 'Z' || name.toUpperCase().charAt(i) < 'A')
+        else {
+            for (int i = 0; i < name.trim().length(); i++) {
+                if (name.toUpperCase().charAt(i) > 'Z' || name.toUpperCase().charAt(i) < 'A')
                     return false;
             }
         }
         return true;
     }
 
-    public boolean validatePassword(String password)
-    {
+    public boolean validatePassword(String password) {
         return password.trim().length() < 30 && password.trim().length() != 0;
 
+    }
+
+    public void adminLogin() {
+        MissionToMarsSystemForAdmin adminControl = new MissionToMarsSystemForAdmin();
+        //System.out.println(adminID);
+        int id = 0;
+        String password = "";
+        System.out.println("*********************");
+        System.out.println("Please enter your ID!");
+        System.out.println("*********************");
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()) {
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("********************************************");
+                System.out.println("You must input a number! Please enter again!");
+                System.out.println("********************************************");
+                scanner.next();
+            }
+        }
+        System.out.println("***************************");
+        System.out.println("Please enter your password!");
+        System.out.println("***************************");
+        Scanner scan = new Scanner(System.in);
+        while (scan.hasNext()) {
+            if (scan.hasNextLine()) {
+                password = scan.nextLine();
+                break;
+            } else {
+                System.out.println("**********************************");
+                System.out.println("Invalid input! Please enter again!");
+                System.out.println("**********************************");
+                scanner.next();
+            }
+        }
+        if (checkAdminLogin(id, password))
+        {
+            System.out.println("+++++++++++++++++++++++++++");
+            System.out.println("+ login success, welcome~ +");
+            System.out.println("+++++++++++++++++++++++++++" + '\n');
+            adminControl.chooseAction();
+        }
+        else
+        {
+            System.out.println("ID or password error, cannot login. Please try again!");
+        }
+    }
+
+    public void coordinatorLogin() {
+        CoordinatorControl cc = new CoordinatorControl();
+        //System.out.println(coordinatorID);
+        int id = 0;
+        String password = "";
+        System.out.println("*********************");
+        System.out.println("Please enter your ID!");
+        System.out.println("*********************");
+        Scanner scanner = new Scanner(System.in);
+        while (scanner.hasNext()) {
+            if (scanner.hasNextInt()) {
+                id = scanner.nextInt();
+                break;
+            } else {
+                System.out.println("********************************************");
+                System.out.println("You must input a number! Please enter again!");
+                System.out.println("********************************************");
+                scanner.next();
+            }
+        }
+        System.out.println("***************************");
+        System.out.println("Please enter your password!");
+        System.out.println("***************************");
+        Scanner scan = new Scanner(System.in);
+        while (scan.hasNext()) {
+            if (scan.hasNextLine()) {
+                password = scan.nextLine();
+                break;
+            } else {
+                System.out.println("**********************************");
+                System.out.println("Invalid input! Please enter again!");
+                System.out.println("**********************************");
+                scanner.next();
+            }
+        }
+        if (checkCoordinatorLogin(id, password))
+        {
+            System.out.println("+++++++++++++++++++++++++++");
+            System.out.println("+ login success, welcome~ +");
+            System.out.println("+++++++++++++++++++++++++++" + '\n');
+            cc.chooseAction();
+        }
+        else
+        {
+            System.out.println("ID or password error, cannot login. Please try again!");
+        }
+    }
+
+    public boolean checkAdminLogin(int id, String password) {
+        boolean login = false;
+        for (int b = 0; b < admin.size(); b++) {
+            //System.out.println("id1: " + admin.get(b).getId());
+            //System.out.println("id2: " + id);
+            //System.out.println("password1: " + admin.get(b).getPassword());
+            //System.out.println("password2: " + password);
+            if ((admin.get(b).getId() == id) && admin.get(b).getPassword().equals(password)) {
+                login = true;
+            }
+        }
+        return login;
+    }
+
+    public boolean checkCoordinatorLogin(int id, String password) {
+        boolean login = false;
+        for (int b = 0; b < coordinator.size(); b++) {
+            //System.out.println("id1: " + coordinator.get(b).getId());
+            //System.out.println("id2: " + id);
+            //System.out.println("password1: " + coordinator.get(b).getPassword());
+            //System.out.println("password2: " + password);
+            if ((coordinator.get(b).getId() == id) && coordinator.get(b).getPassword().equals(password)) {
+                login = true;
+            }
+        }
+        return login;
     }
 
     public void test() {
