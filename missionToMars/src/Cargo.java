@@ -1,5 +1,3 @@
-package com.company;
-
 public class Cargo {
     private int cargoId;
     private String cargoName;

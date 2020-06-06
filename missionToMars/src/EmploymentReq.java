@@ -1,5 +1,3 @@
-package com.company;
-
 public class EmploymentReq {
     private String title;
     private int noOfEachTitle;

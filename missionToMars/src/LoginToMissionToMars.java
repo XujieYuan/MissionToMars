@@ -4,7 +4,6 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -15,6 +14,7 @@ import java.util.Scanner;
 
 public class LoginToMissionToMars {
 
+    /**
     private ArrayList<Integer> coordinatorID;
     private ArrayList<Integer> adminID;
     private ArrayList<Integer> candiID;
@@ -28,8 +28,10 @@ public class LoginToMissionToMars {
         coordinatorID = readCoordinatorID();
         adminID = readAdminId();
         candiID = readCandiId();
-        admin = readAdmin();
-        coordinator = readCoordinator();
+        //admin = readAdmin();
+        admin = new ArrayList<Administrator>();
+        //coordinator = readCoordinator();
+        coordinator = new ArrayList<Coordinator>();
     }
 
     public LoginToMissionToMars(ArrayList<Integer> newCoordinatorID, ArrayList<Integer> newAdminID, ArrayList<Integer> newCandiID, ArrayList<Administrator> newAdmin, ArrayList<Coordinator> newCoordinator) {
@@ -79,6 +81,7 @@ public class LoginToMissionToMars {
     public void setCoordinator(ArrayList<Coordinator> coordinator) {
         this.coordinator = coordinator;
     }
+     */
 
     public void startProgram() {
         while (true) {
@@ -130,8 +133,9 @@ public class LoginToMissionToMars {
         }
     }
 
-    public int registerCoordinator() {
-        System.out.println(coordinatorID);
+    public void registerCoordinator() {
+        ArrayList<Integer> coordinatorID =readCoordinatorID();
+        //System.out.println(coordinatorID);
         RandomNumber rng = new RandomNumber();
         int identifyNo = rng.getRandomNumber(5000, 4000);
         System.out.println("ID: " + identifyNo);
@@ -150,11 +154,11 @@ public class LoginToMissionToMars {
         excel2.writeCSV("coordinator.csv", "\n" + content);
         System.out.println("Register success! As a COORDINATOR, Your identifyNo is " + identifyNo);
         System.out.println();
-        return identifyNo;
     }
 
-    public int registerAdmin() {
-        System.out.println(adminID);
+    public void registerAdmin() {
+        ArrayList<Integer> adminID = readAdminId();
+        //System.out.println(adminID);
         RandomNumber rng = new RandomNumber();
         int identifyNo = rng.getRandomNumber(99, 1);
         System.out.println("ID: " + identifyNo);
@@ -168,7 +172,7 @@ public class LoginToMissionToMars {
         String content = "";
         ArrayList<String> admin = new ArrayList<>();
         admin.add(Integer.toString(identifyNo));
-        admin.add(regId());
+        //admin.add(regId());
         admin.add(regName());
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         admin.add(format.format(regDOB()));
@@ -182,11 +186,11 @@ public class LoginToMissionToMars {
         appendMethod(fileName, "\n");
         System.out.println("Register success! As an ADMINISTRATOR, Your identifyNo is " + identifyNo);
         System.out.println();
-        return identifyNo;
     }
 
-    public int registerCandidate() {
-        System.out.println(candiID);
+    public void registerCandidate() {
+        ArrayList<Integer> candiID = readCandiId();
+        //System.out.println(candiID);
         RandomNumber rng = new RandomNumber();
         int identifyNo = rng.getRandomNumber(2999, 2000);
         System.out.println("ID: " + identifyNo);
@@ -221,9 +225,9 @@ public class LoginToMissionToMars {
         excel.writeCSV("candidate.csv", "\n" + content);
         System.out.println("Register success! As a CANDIDATE, Your identifyNo is " + identifyNo);
         System.out.println();
-        return identifyNo;
     }
 
+    /**
     public String regId() {
         String employeeId = "";
         Scanner scanner = new Scanner(System.in);
@@ -239,6 +243,7 @@ public class LoginToMissionToMars {
         }
         return employeeId;
     }
+     */
 
     public String regName() {
         String employeeName = "";
@@ -793,7 +798,7 @@ public class LoginToMissionToMars {
         for (int i = 0; i <= countTxtLines("./src/administrator.txt") - 1; i++) {
             Administrator ad = new Administrator();
             aid = Integer.parseInt(readTxtFileByLines("./src/administrator.txt").get(i).split(",")[0]);
-            password = readTxtFileByLines("./src/administrator.txt").get(i).split(",")[8];
+            password = readTxtFileByLines("./src/administrator.txt").get(i).split(",")[7];
             ad.setId(aid);
             ad.setPassword(password);
             administrators.add(ad);
@@ -927,6 +932,8 @@ public class LoginToMissionToMars {
     }
 
     public boolean checkAdminLogin(int id, String password) {
+        ArrayList<Administrator> admin = readAdmin();
+        //admin = readAdmin();
         boolean login = false;
         for (int b = 0; b < admin.size(); b++) {
             //System.out.println("id1: " + admin.get(b).getId());
@@ -941,6 +948,8 @@ public class LoginToMissionToMars {
     }
 
     public boolean checkCoordinatorLogin(int id, String password) {
+        ArrayList<Coordinator> coordinator = readCoordinator();
+        //coordinator = readCoordinator();
         boolean login = false;
         for (int b = 0; b < coordinator.size(); b++) {
             //System.out.println("id1: " + coordinator.get(b).getId());

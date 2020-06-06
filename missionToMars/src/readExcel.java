@@ -56,9 +56,8 @@ public class readExcel {
 
     public void writeCSV(String fileName, String content) {
         try {
-            File csv = new File(fileName); // CSV数据文件
-            BufferedWriter bw = new BufferedWriter(new FileWriter(csv,true)); // 附加
-            // 添加新的数据行
+            File csv = new File(fileName);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(csv,true));
             bw.write(content);
             //bw.newLine();
             bw.close();
