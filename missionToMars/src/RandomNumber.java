@@ -31,14 +31,4 @@ public class RandomNumber {
         return minimumValue + (int)(Math.random()*(maximumValue-minimumValue+1));
     }
 
-    public void checkRandomNumber()//check whether the method getRandomNumber work well
-    {
-        for(int i = 0; i < 20; i++)
-        {
-            int turn = getRandomNumber(3, 1);
-            System.out.println(turn);
-
-        }
-    }
-
 }
